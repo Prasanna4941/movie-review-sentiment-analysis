@@ -69,22 +69,19 @@ Classification Report:
 Input:
 
 arduino
-Copy code
+
 "This movie was absolutely wonderful, I loved the acting!"
 Output:
 
 makefile
-Copy code
 Prediction: Positive 😊
 Input:
 
 arduino
-Copy code
 "The movie was boring and too long. Waste of time."
 Output:
 
 makefile
-Copy code
 Prediction: Negative 😞
 📷 Screenshots
 Dataset preview
@@ -117,5 +114,5 @@ Use Deep Learning models for better accuracy
 
 👨‍💻 Author
 Prasanna Kumar
-📧 Email: your-email-here
+📧 Email:prasannakumarnerella1@gmail.com
 🔗 GitHub: Prasanna4941
