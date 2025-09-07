@@ -1,6 +1,3 @@
-# -------------------------
-# Step 1: Import Libraries
-# -------------------------
 import pandas as pd
 import string
 import re
@@ -9,43 +6,24 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
-
-# -------------------------
-# Step 2: Load Dataset
-# -------------------------
-# Change the path to where your CSV is saved
 df = pd.read_csv("IMDB Dataset.csv")
 
 print("Dataset shape:", df.shape)
 print(df.head())
-
-# -------------------------
-# Step 3: Encode Labels
-# -------------------------
 df['sentiment'] = df['sentiment'].map({'positive': 1, 'negative': 0})
-
-# -------------------------
-# Step 4: Text Cleaning Function
-# -------------------------
 def clean_text(text):
-    text = text.lower()                               # lowercase
-    text = re.sub(r"<.*?>", "", text)                 # remove HTML tags
-    text = text.translate(str.maketrans("", "", string.punctuation))  # remove punctuation
-    text = re.sub(r"\d+", "", text)                   # remove numbers
+    text = text.lower()                               
+    text = re.sub(r"<.*?>", "", text)                
+    text = text.translate(str.maketrans("", "", string.punctuation))  
+    text = re.sub(r"\d+", "", text)                  
     return text
 
 df['review'] = df['review'].apply(clean_text)
 
-# -------------------------
-# Step 5: Train-Test Split
-# -------------------------
 X_train, X_test, y_train, y_test = train_test_split(
     df['review'], df['sentiment'], test_size=0.2, random_state=42
 )
 
-# -------------------------
-# Step 6: TF-IDF Vectorization
-# -------------------------
 vectorizer = TfidfVectorizer(max_features=5000)
 X_train_vec = vectorizer.fit_transform(X_train)
 X_test_vec = vectorizer.transform(X_test)
@@ -53,33 +31,22 @@ X_test_vec = vectorizer.transform(X_test)
 print("Shape of training data:", X_train_vec.shape)
 print("Shape of testing data:", X_test_vec.shape)
 
-# -------------------------
-# Step 7: Train Models
-# -------------------------
-# Naive Bayes
 nb = MultinomialNB()
 nb.fit(X_train_vec, y_train)
 y_pred_nb = nb.predict(X_test_vec)
 print("Naive Bayes Accuracy:", accuracy_score(y_test, y_pred_nb))
 
-# Logistic Regression
 lr = LogisticRegression(max_iter=200)
 lr.fit(X_train_vec, y_train)
 y_pred_lr = lr.predict(X_test_vec)
 print("Logistic Regression Accuracy:", accuracy_score(y_test, y_pred_lr))
 
-# -------------------------
-# Step 8: Evaluation Reports
-# -------------------------
 print("\nNaive Bayes Classification Report:\n")
 print(classification_report(y_test, y_pred_nb))
 
 print("\nLogistic Regression Classification Report:\n")
 print(classification_report(y_test, y_pred_lr))
 
-# -------------------------
-# Step 9: Test with Custom Reviews
-# -------------------------
 sample_reviews = [
     "The movie was absolutely fantastic, I loved every moment!",
     "Terrible film. Waste of time. Worst acting ever.",
